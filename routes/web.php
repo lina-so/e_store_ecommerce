@@ -150,6 +150,9 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         // Delete product image
         Route::get('/delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
 
+        // Add attributes
+        Route::match(['get', 'post'], '/attributes/add-edit-attributes/{id?}', [ProductController::class, 'addAttributes'])->name('admins.attributes.add-edit-attributes');
+
     });
 });
 

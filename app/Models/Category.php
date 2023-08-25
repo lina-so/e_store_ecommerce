@@ -8,7 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-
+    
+    protected $fillable = [
+        'parent_id',
+        'section_id',
+        'category_name',
+        'category_image',
+        'category_discount',
+        'description',
+        'status',
+    ];
+    
     public function section(){
 
         return $this->belongsTo(Section::class, 'section_id')->select('id', 'name');

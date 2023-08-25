@@ -11,6 +11,11 @@ class Value extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 
+        'option_id'
+    ];
+    
     public function option(){
 
         return $this->belongsTo(Option::class)->select(['id', 'name']);

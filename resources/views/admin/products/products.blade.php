@@ -31,10 +31,10 @@
                                     Category
                               </th>
                               <th>
-                                    Section
+                                    Added By
                               </th>
                               <th>
-                                    Added By
+                                    Product Image
                               </th>
                               <th>
                                     Status
@@ -57,15 +57,15 @@
                                     {{ $product['category']['category_name'] }}
                                 </td>
                                 <td>
-                                
-                                </td>
-                                <td>
                                     @if($product['admin_type'] == 'vendor')
                                        <a target="_blank" href="{{ url('admin/view-vendor-details/' . $product['vendor_id']) }}">{{ ucfirst($product['admin_type']) }}</a>
                                     @else
                                        {{ ucfirst($product['admin_type']) }}
                                     @endif
                                 </td>
+                                <td>
+                                    <img src="{{ url('front/images/product_images/'.$product['product_image']) }}" alt="">
+                                 </td>
                                 <td>
                                     @if($product['status'] == 1)
                                        <a href="javascript:void(0)" class="update-product-status" id="product-{{ $product['id'] }}" product_id="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
@@ -75,6 +75,8 @@
                                 </td>
                                 <td>
                                     <a href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                                    <a href="{{ url('admin/attributes/add-edit-attributes/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-plus-box"></i></a>
+                                    <a title="Add Multiple Images" href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-library-plus"></i></a>
                                     <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
                                 </td>
                            </tr>

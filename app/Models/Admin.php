@@ -15,6 +15,17 @@ class Admin extends Model implements Authenticatable
 
     protected $guard = 'admin';
 
+    protected $fillable = [
+        'name',
+        'type',
+        'vendor_id',
+        'mobile',
+        'email',
+        'password',
+        'image',
+        'status',
+    ];
+
     public function vendorPersonal(){
 
         return $this->belongsTo(Vendor::class, 'vendor_id');

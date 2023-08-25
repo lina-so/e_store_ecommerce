@@ -245,5 +245,8 @@
       <!-- Start SweetAlert2 js -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <!-- End SweetAlert2 js -->
+      <!-- Start ajax Jquery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- End ajas Jquery libarary -->
    </body>
 </html>

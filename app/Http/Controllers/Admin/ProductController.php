@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\Section;
 use App\Models\Value;
 use Illuminate\Http\Request;
@@ -121,6 +122,7 @@ class ProductController extends Controller
             $product->status = 1;
             $product->save();
 
+            return redirect('/admin/products')->with('success_message', $message);
         }
         // Get section with categories and subcategories
         $categoriesSection = Section::with('categories')->get();
@@ -129,6 +131,46 @@ class ProductController extends Controller
         // Get all brands
         $brands = Brand::where('status', 1)->get();
 
-        return view('admin.products.add-edit-product',compact('title', 'categoriesSection', 'brands','categories'))->with('success_message', $message);
+        // Get all values
+        $values = Value::get();
+
+        return view('admin.products.add-edit-product',compact('title', 'categoriesSection', 'brands','categories', 'values'));
+    }
+
+    public function addAttributes(Request $request, $id){
+        $title = "Add Attributes";
+        $product = Product::select('id', 'product_name', 'product_price', 'product_image')->with('attributes')->find($id);
+        if($request->isMethod('post')){
+            $data = $request->all();
+            
+            foreach($data['sku'] as $key => $value){
+                if(!empty($value)){
+
+                    // SKU duplicate check
+                    $skuCount = ProductAttribute::where('sku', $value)->count();
+                    if($skuCount > 0){
+                        return redirect()->back()->with('success_message', 'Please add another SKU!');
+                    }
+                    // Size duplicate check
+                    $sizeCount = ProductAttribute::where(['product_id' => $id], 'value_id', $data['value_id'][$key])->count();
+                    if($sizeCount > 0){
+                        return redirect()->back()->with('success_message', 'Please add another size!');
+                    }
+
+                    $attribute = new ProductAttribute;
+                    $attribute->product_id = $id;
+                    $attribute->sku = $value;
+                    $attribute->size = $data['value_id'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->status = 1;
+                    $attribute->save();
+                }
+            }
+
+            return redirect()->back()->with('success_message', 'Product Attribute has been added successfully!');
+        }
+
+        return view('admin.attributes.add-edit-attributes')->with(compact('title', 'product'));
     }
 }

@@ -14,11 +14,13 @@ class Product extends Model
         'admin_type',
         'vendor_id',
         'product_name',
+        'product_price',
         'product_discount',
         'product_image',
         'description',
         'is_featured',
-        'status'];
+        'status'
+    ];
 
     public function section(){
 
@@ -32,6 +34,11 @@ class Product extends Model
     public function values(){
         
         return $this->belongsToMany(Value::class, 'product_value');
+    }
+
+    public function attributes(){
+
+        return $this->hasMany(ProductAttribute::class);
     }
 }
 

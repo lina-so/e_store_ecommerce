@@ -36,9 +36,6 @@
                                     Section
                               </th>
                               <th>
-                                    URL
-                              </th>
-                              <th>
                                     Status
                               </th>
                               <th>
@@ -65,9 +62,6 @@
                                 </td>
                                 <td>
                                     {{ $category['section']['name'] }}
-                                </td>
-                                <td>
-                                    {{ $category['url'] }}
                                 </td>
                                 <td>
                                     @if($category['status'] == 1)

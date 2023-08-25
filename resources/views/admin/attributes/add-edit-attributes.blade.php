@@ -29,7 +29,7 @@
     <div class="main-panel">        
         <div class="content-wrapper">
           <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
+            <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ $title }}</h4>
@@ -63,58 +63,32 @@
                         </div>
                     @endif
                     
-                    <form class="forms-sample" @if(empty($category['id'])) action="{{ url('admin/categories/add-edit-category') }}" @else action="{{ url('admin/categories/add-edit-category/'.$category['id']) }}" @endif method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ url('admin/attributes/add-edit-attributes/'. $product['id']) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="category_name">Category Name</label>
-                            <input type="text" class="form-control" id="category_name" placeholder="Enter Category Name" name="category_name" @if(!empty($category['category_name'])) value="{{ $category['category_name'] }}" @else value="{{ old('category_name') }}" @endif>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="option_id">Select Options</label>
-                            <select name="option_id[]" id="option_id" class="form-control" style="color:#000" multiple>
-                                <option value="">select</option>
-                                @foreach($options as $option)
-                                    <option value="{{ $option->id }}">{{$option->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                   
-                        <div class="form-group">
-                            <label for="section_id">Select Section</label>
-                            <select name="section_id" id="section_id" class="form-control" style="color:#000">
-                            <option value="">Select</option>
-                            @foreach($getSections as $section)
-                                <option value="{{ $section['id'] }}" @if(!empty($category['section_id']) selected="" @endif>{{ $section['name'] }}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                       
-                        <div class="form-group" id="appendCategoriesLevel">
-                            @include('admin.categories.append-categories-level')
+                            <label for="product_name">Product Name: &nbsp; {{ $product['product_name'] }}</label>
+                                
                         </div>
                         <div class="form-group">
-                            <label for="category_image">Category Image</label>
-                            <input type="file" name="category_image" id="category_image" class="form-control"></input>
-                            @if(!empty($category['category_image']))
-                                <a target="_blank" href="{{ url('front/images/category_images/'.$category['category_image']) }}">View Image</a>&nbsp;|&nbsp;
-                                <a href="javascript:void(0)" class="confirmDelete" module="category-image" moduleid="{{ $category['id'] }}">Delete Image</a>
+                            <label for="product_price">Product Price: &nbsp; {{ $product['product_price'] }}</label>
+                        </div>
+                        <div class="form-group">
+                            @if(!empty($product['product_image']))
+                                <img target="_blank" style="width:120px;" src="{{ url('front/images/product_images/large/'.$product['product_image']) }}" alt="">
+                            @else
+                                <img target="_blank" style="width:120px;" src="{{ url('front/images/product_images/small/no-image.png') }}" alt="">
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="category_discount">Category Discount</label>
-                            <input type="text" class="form-control" id="categoy_discount" placeholder="Enter Categroy Discount" name="category_discount" @if(!empty($category['category_discount'])) value="{{ $category['category_discount'] }}" @else value="{{ old('category_discount') }}" @endif>
-                        </div>
-                        <div class="form-group">
-                            <label for="category_discount">Category Description</label>
-                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Category Status</label>
-                            <select name="status" id="status">
-                                <option value="0">Inactive</option>
-                                <option value="1">Active</option>
-                            </select>
+                            <div class="field_wrapper">
+                                <div>
+                                    <input type="text" name="value_id[]" placeholder="Value" style="width:120px;" required="" />
+                                    <input type="text" name="sku[]" placeholder="SKU" style="width:120px;" required="" />
+                                    <input type="text" name="price[]" placeholder="Price" style="width:120px;" required="" />
+                                    <input type="text" name="stock[]" placeholder="Stock" style="width:120px;" required="" />
+                                    <a href="javascript:void(0);" class="add_button" title="Add Attributes">Add</a>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         <button class="btn btn-light">Cancel</button>
@@ -123,7 +97,65 @@
             </div>
         </div>
     </div>
-</div>  
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="table-responsive pt-3">
+                <table id="products" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                        <th>
+                            SKU
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Stock
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($product['attributes'] as $attribute)
+                    <tr>
+                        <td>
+                            {{ $attribute['id'] }}
+                        </td>
+                        <td>
+                            {{ $attribute['value_id'] }}
+                        </td>
+                        <td>
+                            {{ $attribute['sku'] }}
+                        </td>
+                        <td>
+                            {{ $attribute['price'] }}
+                        </td>
+                        <td>
+                            {{ $attribute['stock'] }}
+                        </td>
+                        <td>
+                            @if($attribute['status'] == 1)
+                                <a href="javascript:void(0)" class="update-product-status" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
+                            @else
+                                <a href="javascript:void(0)" class="update-product-status" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-outline" status="Inactive"></i>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+</div>
 @include('admin.layouts.footer')
 <!-- partial -->
 @endsection
