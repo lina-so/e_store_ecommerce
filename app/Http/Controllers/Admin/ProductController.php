@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Models\Category;
+use App\Models\Value;
 use App\Models\Option;
 use App\Models\Product;
 use App\Models\Section;
-use App\Models\Value;
+use App\Models\Category;
+use App\Models\ProductValue;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -102,7 +103,7 @@ class ProductController extends Controller
                    // Generate new image name
                    $imageName = rand(111,99999).'.'.$extention;
                    $imagePath = 'front/images/product_images/'.$imageName;
-                   
+
                    // Upload the image
                    Image::make($image_tmp)->save($imagePath);
 
@@ -131,4 +132,57 @@ class ProductController extends Controller
 
         return view('admin.products.add-edit-product',compact('title', 'categoriesSection', 'brands','categories'))->with('success_message', $message);
     }
+
+
+
+    /*************************************************************************************************/
+
+    public function getOption($id)
+    {
+        $product = Product::findOrFail($id);
+        $category = $product->category;
+        $options = $category->options;
+
+        // dd($product);
+
+
+        return view('admin.products.add_option', compact('options', 'id'));
+
+    }
+
+    /*************************************************************************************************/
+
+
+    public function getOptionValue($id)
+    {
+        $option = Option::with('values')->findOrFail($id);
+
+        $option_values = $option->values;
+
+        return $option_values;
+    }
+
+
+    /*************************************************************************************************/
+
+    public function addOption(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+
+        $product_value = ProductValue::where('product_id',$request->product_id)->where('value_id',$request->option_value_id)->first();
+
+        if(isset($product_value))
+        {
+            Session::flash('message','product`s option value already exists ');
+            return back();
+        }
+        else
+        {
+            $product->values()->attach($request->option_value_id);
+            return redirect()->back()->with('success','option value add successfully');
+        }
+
+    }
+
+
 }

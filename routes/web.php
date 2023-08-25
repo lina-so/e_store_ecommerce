@@ -39,11 +39,11 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::prefix('/admin')->namespace('Admin')->group(function(){
-    
+
     // Admin Login route
     Route::match(['get', 'post'], '/login', [AdminController::class, 'login'])->name('admin.login');
     Route::group(['middleware'=>['admin']], function(){
-        
+
         // Admin dashboard route
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -71,7 +71,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Update admin status
         Route::post('/update-admin-status', [AdminController::class, 'updateAdminStatus']);
-      
+
         // Admin logout
         Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
@@ -89,7 +89,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Categories
         Route::get('/categories', [CategoryController::class, 'categories'])->name('admin.categories.categories');
-  
+
         // Update category status
         Route::post('/update-category-status', [CategoryController::class, 'updateCategoryStatus']);
 
@@ -97,7 +97,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
         Route::get('/delete-category/{id}', [CategoryController::class, 'deleteCategory']);
 
         //Append category level
-        Route::get('append-category-level', [CategoryController::class, 'appendCategoryLevel'])->name('admins.categories.append-category-level'); 
+        Route::get('append-category-level', [CategoryController::class, 'appendCategoryLevel'])->name('admins.categories.append-category-level');
 
         // Add/Edit category
         Route::match(['get', 'post'], '/categories/add-edit-category/{id?}', [CategoryController::class, 'addEditCategory']);
@@ -116,7 +116,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Add/Edit brand
         Route::match(['get', 'post'], 'brands/add-edit-brand/{id?}', [BrandController::class, 'addEditBrand'])->name('admin.brands.add-edit-brand');
-   
+
         // Values
         Route::get('/values', [ValueController::class, 'values'])->name('admin.values.values');
 
@@ -125,7 +125,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Add/Edit value
         Route::match(['get', 'post'], 'values/add-edit-value/{id?}', [ValueController::class, 'addEditValue'])->name('admin.values.add-edit-value');
-         
+
         // Options
         Route::get('/options', [OptionController::class, 'options'])->name('admin.options.options');
 
@@ -134,10 +134,10 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Add/Edit option
         Route::match(['get', 'post'], 'options/add-edit-option/{id?}', [OptionController::class, 'addEditOption'])->name('admin.options.add-edit-option');
-        
+
         // Products
         Route::get('/products', [ProductController::class, 'products'])->name('admin.products.products');
-  
+
         // Update product status
         Route::post('/update-product-status', [ProductController::class, 'updateProductStatus']);
 
@@ -149,6 +149,14 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Delete product image
         Route::get('/delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
+
+        /*=====================   Add option   ==============*/
+
+        Route::get('product_options/{id}', [ProductController::class, 'getOption'])->name('getOption');
+
+        Route::get('/get_option_value/{id}',[ProductController::class,'getOptionValue'])->name('get_option_value');
+
+        Route::post('add_option',[ProductController::class,'addOption'])->name('addOption');
 
     });
 });

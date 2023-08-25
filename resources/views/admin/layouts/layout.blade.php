@@ -245,5 +245,31 @@
       <!-- Start SweetAlert2 js -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <!-- End SweetAlert2 js -->
+
+
+    <script>
+        $(document).ready(function () {
+            $('select[name="option_id"]').on('change', function () {
+                var option_id = $(this).val();
+                if (option_id) {
+                    $.ajax({
+                        url: "{{ URL::to('admin/get_option_value') }}/" + option_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="option_value_id"]').empty();
+                            $.each(data, function (index, option_value) {
+                        // $('select[name="option_value_id"]').append('<option selected disabled>{{__('app.choose')}}...</option>');
+                        $('select[name="option_value_id"]').append('<option value="' + option_value.id + '">' + option_value.name + '</option>');
+                         });
+                        },
+                    });
+                }
+                else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+    </script>
    </body>
 </html>

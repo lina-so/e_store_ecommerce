@@ -1,5 +1,6 @@
 @extends('admin.layouts.layout')
-@section('content')   
+@section('content')
+
 <!-- partial -->
 <div class="main-panel">
    <div class="content-wrapper">
@@ -30,9 +31,7 @@
                               <th>
                                     Category
                               </th>
-                              <th>
-                                    Section
-                              </th>
+
                               <th>
                                     Added By
                               </th>
@@ -56,9 +55,7 @@
                                 <td>
                                     {{ $product['category']['category_name'] }}
                                 </td>
-                                <td>
-                                
-                                </td>
+
                                 <td>
                                     @if($product['admin_type'] == 'vendor')
                                        <a target="_blank" href="{{ url('admin/view-vendor-details/' . $product['vendor_id']) }}">{{ ucfirst($product['admin_type']) }}</a>
@@ -76,6 +73,9 @@
                                 <td>
                                     <a href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
                                     <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
+                                    <a   style="padding: 5px;"  class=" btn btn-sm btn-success"
+                                    href="{{ route('getOption',$product->id) }}"
+                                    title="show">add options</a>
                                 </td>
                            </tr>
                         @endforeach
