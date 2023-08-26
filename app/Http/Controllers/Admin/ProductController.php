@@ -122,6 +122,7 @@ class ProductController extends Controller
             $product->status = 1;
             $product->save();
 
+            return redirect()->back()->with('success_message', 'Product has beend added successfully!');
         }
         // Get section with categories and subcategories
         $categoriesSection = Section::with('categories')->get();
