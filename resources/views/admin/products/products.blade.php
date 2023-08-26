@@ -74,9 +74,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
-                                    <a href="{{ url('admin/attributes/add-edit-attributes/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-plus-box"></i></a>
-                                    <a title="Add Multiple Images" href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-library-plus"></i></a>
+                                    <a title="Edit Product" href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                                    <a title="Add Attributes" href="{{ url('admin/attributes/add-edit-attributes/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-plus-box"></i></a>
+                                    <a title="Add Multiple Images" href="{{ url('admin/images/add-images/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-library-plus"></i></a>
                                     <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
                                 </td>
                            </tr>

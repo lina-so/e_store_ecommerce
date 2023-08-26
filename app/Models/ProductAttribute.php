@@ -17,4 +17,9 @@ class ProductAttribute extends Model
         'sku',
         'status'
     ];
+    
+    public function values(){
+
+        return $this->hasMany(Value::class);
+    }
 }

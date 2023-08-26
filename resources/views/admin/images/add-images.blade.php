@@ -32,7 +32,7 @@
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ $title }}</h4>
+                    <h4 class="card-title">Add Images</h4>
                     @if(Session::has('error_message'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Error!</strong> {{ Session::get('error_message') }}
@@ -63,30 +63,24 @@
                         </div>
                     @endif
                     
-                    <form class="forms-sample" action="{{ url('admin/attributes/add-edit-attributes/'. $product['id']) }}" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ url('admin/images/add-images/'. $product['id']) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="product_name">Product Name: &nbsp; {{ $product['product_name'] }}</label>
+                            <label for="product_name">Product Name: &nbsp; {{ $product->product_name }}</label>
                                 
                         </div>
                         <div class="form-group">
-                            <label for="product_price">Product Price: &nbsp; {{ $product['product_price'] }}</label>
+                            <label for="product_price">Product Price: &nbsp; {{ $product->product_price }}</label>
                         </div>
                         <div class="form-group">
                             @if(!empty($product->product_image))
-                                <img target="_blank" style="width:120px;" src="{{ url('front/images/product_images/'.$product['product_image']) }}" alt="">
+                                <img target="_blank" style="width:120px;" src="{{ url('front/images/product_images/'.$product->product_image) }}" alt="">
+                            @else
+                                <img target="_blank" style="width:120px;" src="{{ url('front/images/product_images/no-image.png') }}" alt="">
                             @endif
                         </div>
                         <div class="form-group">
-                            <div class="field_wrapper">
-                                <div>
-                                    <input type="number" name="value_id[]" placeholder="Value" style="width:120px;" required="" />
-                                    <input type="text" name="sku[]" placeholder="SKU" style="width:120px;" required="" />
-                                    <input type="number" name="price[]" placeholder="Price" style="width:120px;" required="" />
-                                    <input type="number" name="stock[]" placeholder="Stock" style="width:120px;" required="" />
-                                    <a href="javascript:void(0);" class="add_button" title="Add Attributes">Add</a>
-                                </div>
-                            </div>
+                            <input type="file" name="images[]" multiple="" id="images" />
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         <button class="btn btn-light">Cancel</button>
@@ -98,7 +92,7 @@
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="table-responsive pt-3">
-                <form method="post" action="{{ url('admin/attributes/add-edit-attributes/'.$product['id']) }}">
+                <form method="post" action="{{ url('admin/images/add-images/'.$product['id']) }}">
                     @csrf
                     <table id="products" class="table table-bordered">
                         <thead>
@@ -107,47 +101,34 @@
                                     ID
                                 </th>
                                 <th>
-                                    Value
-                                </th>
-                                <th>
-                                    SKU
-                                </th>
-                                <th>
-                                    Price
-                                </th>
-                                <th>
-                                    Stock
+                                    Image
                                 </th>
                                 <th>
                                     Status
                                 </th>
+                                <th>
+                                    Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($product->attributes as $attribute)
-                            <input style="display:none;" type="hidden" name="attributeId" value="{{ $attribute->id }}" >
+                        @foreach($product->images as $image)
                             <tr>
                                 <td>
-                                    {{ $attribute->id }}
+                                    {{ $image->id }}
                                 </td>
                                 <td>
-                                    {{ $attribute->value_id }}
+                                    <img src="{{ url('front/images/product_images/small/'. $image['image']) }}" alt="">
                                 </td>
                                 <td>
-                                    {{ $attribute->sku}}
-                                </td>
-                                <td>
-                                    <input type="number" name="price" value="{{ $attribute->price }}" requried="" style="width:70px;">
-                                </td>
-                                <td>
-                                    <input type="number" name="stock" value="{{ $attribute->stock }}" requried="" style="width:70px;">
-                                </td>
-                                <td>
-                                    @if($attribute['status'] == 1)
-                                        <a href="javascript:void(0)" class="update-attribute-status" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
+                                    @if($image['status'] == 1)
+                                       <a href="javascript:void(0)" class="update-image-status" id="image-{{ $image['id'] }}" image_id="{{ $image['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
                                     @else
-                                        <a href="javascript:void(0)" class="update-attribute-status" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-outline" status="Inactive"></i>
+                                       <a href="javascript:void(0)" class="update-image-status" id="image-{{ $image['id'] }}" image_id="{{ $image['id'] }}"><i style="font-size: 25px;" class="mdi mdi-bookmark-outline" status="Inactive"></i>
                                     @endif
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="confirmDelete" module="image" moduleid="{{ $image['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
                                 </td>
                             </tr>
                         @endforeach

@@ -26,7 +26,7 @@ class ProductAttributeSeeder extends Seeder
             [
                 'id' => 2,
                 'product_id' => 2,
-                'value_id' => 1,
+                'value_id' => 2,
                 'price' => 213.2,
                 'stock' => 12,
                 'sku' => 'E12',

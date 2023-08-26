@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ValueController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
+use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -152,6 +153,24 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Add attributes
         Route::match(['get', 'post'], '/attributes/add-edit-attributes/{id?}', [ProductController::class, 'addAttributes'])->name('admins.attributes.add-edit-attributes');
+
+        // Update attribute status
+        Route::post('/update-attribute-status', [ProductController::class, 'updateAttributeStatus']);
+        
+        // Delete attribute
+        Route::get('/delete-attribute/{id}', [ProductController::class, 'deleteAttribute']);
+
+        // Edit Attributes
+        Route::match(['get', 'post'], '/edit-attributes/{id}', [ ProductController::class, 'editAttributes']);
+        
+        // Images
+        Route::match(['get', 'post'], '/images/add-images/{id}', [ProductController::class, 'addImages']);
+        
+        // Update image status
+        Route::post('/update-image-status', [ProductController::class, 'updateImageStatus']);
+
+        // Delete product image
+        Route::get('/delete-image/{id}', [ProductController::class, 'deleteImage']);
 
     });
 });

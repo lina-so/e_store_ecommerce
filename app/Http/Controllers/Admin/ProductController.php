@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Models\ProductImages;
 use App\Models\Section;
 use App\Models\Value;
 use Illuminate\Http\Request;
@@ -38,6 +39,19 @@ class ProductController extends Controller
         }
     }
 
+    public function updateAttributeStatus(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+            if($data['status'] == "Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            Product::query()->where('id', $data['attribute_id'])->update(['status' => $status]);
+
+            return response()->json(['status' => $status, 'attribute_id' =>  $data['attribute_id']]);
+        }
+    }
     public function deleteProduct($id){
         // Delete product
         Product::where('id', $id)->delete();
@@ -92,7 +106,9 @@ class ProductController extends Controller
                 $product->vendor_id = 0;
             }
             $product->product_name = $data['product_name'];
-            $product->product_discount = $data['product_discount'];// Upload category photo
+            $product->product_price = $data['product_price'];
+            $product->product_discount = $data['product_discount'];
+            // Upload Product photo
             if($request->hasFile('product_image')){
                $image_tmp = $request->file('product_image');
                if($image_tmp->isValid()){
@@ -102,16 +118,19 @@ class ProductController extends Controller
 
                    // Generate new image name
                    $imageName = rand(111,99999).'.'.$extention;
-                   $imagePath = 'front/images/product_images/'.$imageName;
+                   $largeImagePath = 'front/images/product_images/large/'.$imageName;
+                   $meduimImagePath = 'front/images/product_images/medium/'.$imageName;
+                   $smallImagePath = 'front/images/product_images/small/'.$imageName;
                    
                    // Upload the image
-                   Image::make($image_tmp)->save($imagePath);
+                   Image::make($image_tmp)->resize(1000, 1000)->save($largeImagePath);
+                   Image::make($image_tmp)->resize(500, 500)->save($meduimImagePath);
+                   Image::make($image_tmp)->resize(250, 250)->save($smallImagePath);
 
                    $product->product_image = $imageName;
                }
-           }else{
-               $product->product_image = "";
            }
+
             $product->description = $data['description'];
             if(!empty($data['is_featured'])){
                 $product->is_featured = $data['is_featured'];
@@ -138,6 +157,7 @@ class ProductController extends Controller
     }
 
     public function addAttributes(Request $request, $id){
+        Session::put('page', 'products');
         $title = "Add Attributes";
         $product = Product::select('id', 'product_name', 'product_price', 'product_image')->with('attributes')->find($id);
         if($request->isMethod('post')){
@@ -145,22 +165,10 @@ class ProductController extends Controller
             
             foreach($data['sku'] as $key => $value){
                 if(!empty($value)){
-
-                    // SKU duplicate check
-                    $skuCount = ProductAttribute::where('sku', $value)->count();
-                    if($skuCount > 0){
-                        return redirect()->back()->with('success_message', 'Please add another SKU!');
-                    }
-                    // Size duplicate check
-                    $sizeCount = ProductAttribute::where(['product_id' => $id], 'value_id', $data['value_id'][$key])->count();
-                    if($sizeCount > 0){
-                        return redirect()->back()->with('success_message', 'Please add another size!');
-                    }
-
                     $attribute = new ProductAttribute;
                     $attribute->product_id = $id;
                     $attribute->sku = $value;
-                    $attribute->size = $data['value_id'][$key];
+                    $attribute->value_id = $data['value_id'][$key];
                     $attribute->price = $data['price'][$key];
                     $attribute->stock = $data['stock'][$key];
                     $attribute->status = 1;
@@ -172,5 +180,97 @@ class ProductController extends Controller
         }
 
         return view('admin.attributes.add-edit-attributes')->with(compact('title', 'product'));
+    }
+    
+    // Edit attributes
+    public function editAtributes(Request $request, $id){
+        Session::put('page', 'attributes');
+        if($request->isMethod('post')){
+            $data = $request->all();
+            dd($data);
+            foreach($data['attributeId'] as $key => $value){
+                if(!empty($attribute)){
+                    ProductAttribute::where(['id' => $data['attribute'][$key]])->update(['price' => $data['price'][$key], 'stock'=>$data['stock'][$key]]);
+                }
+            }
+            return redirect()->back()->with('success_message', 'Product Attributes has been updated successfully!');
+        }
+    }
+
+    // Delete attribute
+    public function deleteAttribute($id){
+        // Delete 
+        ProductAttribute::where('id', $id)->delete();
+        $message = "Product attribute has been deleted successfully!";
+
+        return redirect()->back()->with('success_message', $message);
+    }
+
+    // Add images
+    public function addImages(Request $request, $id){
+        Session::put('page', 'product');
+        $product = Product::select('id', 'product_name', 'product_price', 'product_image')->with('images')->find($id);
+       if($request->isMethod('post')){
+            $data = $request->all();
+            // Upload product photo
+            if($request->hasFile('images')){
+                $images = $request->file('images');
+                foreach($images as $key => $image){
+                    // Generate temp image
+                    $image_tmp = Image::make($image);
+
+                    // Get image name
+                    $image_name = $image->getClientOriginalExtension();
+
+                    // Get image extension
+                    $extention = $image->getClientOriginalExtension();
+
+                    // Generate new image name
+                    $imageName = $image_name.rand(111,99999).'.'.$extention;
+                    $largeImagePath = 'front/images/product_images/large/'.$imageName;
+                    $meduimImagePath = 'front/images/product_images/medium/'.$imageName;
+                    $smallImagePath = 'front/images/product_images/small/'.$imageName;
+        
+                    // Upload the image
+                    Image::make($image_tmp)->resize(1000, 1000)->save($largeImagePath);
+                    Image::make($image_tmp)->resize(500, 500)->save($meduimImagePath);
+                    Image::make($image_tmp)->resize(250, 250)->save($smallImagePath);
+                    
+                    $image = new ProductImages;
+                    $image->image = $imageName;
+                    $image->product_id = $id;
+                    $image->status = 1;
+                    
+                    $image->save();
+                }
+                
+            return redirect()->back()->with('success_message', 'Product images have been added successfully!');
+            }
+        }
+
+        return view('admin.images.add-images')->with(compact('product'));
+    }
+
+    public function updateImageStatus(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+            if($data['status'] == "Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            Product::query()->where('id', $data['image_id'])->update(['status' => $status]);
+
+            return response()->json(['status' => $status, 'image_id' =>  $data['image_id']]);
+        }
+    }
+
+    // Delete image
+    public function deleteImage($id){
+        // Delete image
+        ProductImages::where('id', $id)->delete();
+        $message = "Product image has been deleted successfully!";
+
+        return redirect()->back()->with('success_message', $message);
     }
 }
