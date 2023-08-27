@@ -1,16 +1,17 @@
 <?php
 
+use App\Models\Category;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ValueController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
-use App\Http\Controllers\Admin\ValueController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\FrontInterfaces\IndexController;
-use App\Http\Controllers\ProfileController;
-use App\Models\Category;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontInterfaces\FavoraiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,8 +163,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
     });
 });
 
+/*=====================  favoraite  ==============*/
+Route::get("favoraite/{ID}/{customerId}", [FavoraiteController::class, 'store'])->name('favoraite')->middleware('auth');
+
 Route::namespace('App\Http\Controller\Front')->group(function(){
-    Route::get('/', [IndexController::class, 'index']);
+    Route::get('/', [IndexController::class, 'index'])->name('e-store');
 });
 
 

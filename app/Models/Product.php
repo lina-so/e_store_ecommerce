@@ -26,12 +26,17 @@ class Product extends Model
     }
 
     public function category(){
-        
+
         return $this->belongsTo(Category::class)->select('id', 'category_name');
     }
     public function values(){
-        
+
         return $this->belongsToMany(Value::class, 'product_value');
     }
+    public function favoritable()
+    {
+        return $this->morphMany(Favoraite::class, 'favoritable');
+    }
+
 }
 
