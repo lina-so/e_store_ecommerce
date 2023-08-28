@@ -31,7 +31,9 @@
                               <th>
                                     Category
                               </th>
-
+                              <th>
+                                    Product Image
+                              </th>
                               <th>
                                     Added By
                               </th>
@@ -55,7 +57,9 @@
                                 <td>
                                     {{ $product['category']['category_name'] }}
                                 </td>
-
+                                <td>
+                                    <img src="{{ url('front/images/product_images/'.$product['product_image']) }}" alt="">
+                                </td>
                                 <td>
                                     @if($product['admin_type'] == 'vendor')
                                        <a target="_blank" href="{{ url('admin/view-vendor-details/' . $product['vendor_id']) }}">{{ ucfirst($product['admin_type']) }}</a>
@@ -71,9 +75,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
-                                    <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
-                                    <a   style="padding: 5px;"  class=" btn btn-sm btn-success"
+                                    <a title="Add/Edit Product" href="{{ url('admin/products/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                                    <a title="Add Attributes" href="{{ url('admin/attributes/add-edit-attributes/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-plus-box"></i></a>
+                                    <a title="Add Images" href="{{ url('admin/add-images/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-library-plus"></i></a>
+                                    <a title="Delete Product" href="{{ url('admin/delete-product/'.$product['id']) }}" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
+                                    <a style="padding: 5px;"  class=" btn btn-sm btn-success"
                                     href="{{ route('getOption',$product->id) }}"
                                     title="show">add options</a>
                                 </td>
