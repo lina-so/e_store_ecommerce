@@ -245,8 +245,9 @@
       <!-- Start SweetAlert2 js -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <!-- End SweetAlert2 js -->
-
-
+      <!-- Add/Remove Input fileds dynamically js library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- End Add/Remove Input fileds dynamically js library -->
     <script>
         $(document).ready(function () {
             $('select[name="option_id"]').on('change', function () {
