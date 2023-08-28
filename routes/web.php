@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\FrontInterfaces\IndexController;
-use App\Http\Controllers\FrontInterfaces\FavoraiteController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Category;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +153,24 @@ Route::prefix('/admin')->namespace('Admin')->group(function(){
 
         // Delete product image
         Route::get('/delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
+
+        //Attributes
+        Route::match(['get', 'post'], '/attributes/add-edit-attributes/{id}', [ProductController::class, 'addEditAttributes']); 
+
+        // Update attribute status
+        Route::post('/update-attribute-status', [ProductController::class, 'updateAttributeStatus']);
+        
+        // Edit attribute
+        Route::post('/edit-attributes/{id}', [ProductController::class, 'editAttributes']);
+
+        // Add Images
+        Route::match(['get', 'post'], '/add-images/{id}', [ProductController::class, 'addImages']);
+
+        // Update image status
+        Route::post('/update-image-status', [ProductController::class, 'updateImageStatus']);
+
+        // Delete image
+        Route::get('/delete-image/{id}', [ProductController::class, 'deleteImage']);
 
         /*=====================   Add option   ==============*/
 

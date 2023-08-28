@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('vendor_id');
             $table->string('admin_type');
             $table->string('product_name');
+            $table->double('product_price');
             $table->double('product_discount');
             $table->string('product_image');
             $table->mediumText('description');

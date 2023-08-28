@@ -33,10 +33,5 @@ class Product extends Model
 
         return $this->belongsToMany(Value::class, 'product_value');
     }
-    public function favoritable()
-    {
-        return $this->morphMany(Favoraite::class, 'favoritable');
-    }
-
 }
 

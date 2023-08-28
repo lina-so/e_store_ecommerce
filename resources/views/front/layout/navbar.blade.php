@@ -1,4 +1,3 @@
-
 <!--====== Navbar Style 7 Part Start ======-->
 <div class="navigation">
     <header class="navbar-style-7 position-relative">
@@ -43,7 +42,8 @@
                                                     <td class="checkout-product">
                                                         <div class="product-cart d-flex">
                                                             <div class="product-thumb">
-                                                                <img src="assets/images/product-cart/product-1.png" alt="Product">
+                                                                <img src="assets/images/product-cart/product-1.png"
+                                                                    alt="Product">
                                                             </div>
                                                             <div class="product-content media-body">
                                                                 <h5 class="title">
@@ -80,7 +80,8 @@
                                                     <td class="checkout-product">
                                                         <div class="product-cart d-flex">
                                                             <div class="product-thumb">
-                                                                <img src="assets/images/product-cart/product-2.png" alt="Product">
+                                                                <img src="assets/images/product-cart/product-2.png"
+                                                                    alt="Product">
                                                             </div>
                                                             <div class="product-content media-body">
                                                                 <h5 class="title">
@@ -117,7 +118,8 @@
                                                     <td class="checkout-product">
                                                         <div class="product-cart d-flex">
                                                             <div class="product-thumb">
-                                                                <img src="assets/images/product-cart/product-3.png" alt="Product">
+                                                                <img src="assets/images/product-cart/product-3.png"
+                                                                    alt="Product">
                                                             </div>
                                                             <div class="product-content media-body">
                                                                 <h5 class="title">
@@ -154,7 +156,8 @@
                                                     <td class="checkout-product">
                                                         <div class="product-cart d-flex">
                                                             <div class="product-thumb">
-                                                                <img src="assets/images/product-cart/product-4.png" alt="Product">
+                                                                <img src="assets/images/product-cart/product-4.png"
+                                                                    alt="Product">
                                                             </div>
                                                             <div class="product-content media-body">
                                                                 <h5 class="title">
@@ -211,11 +214,6 @@
                     <div class="search-select">
                         <select>
                             <option value="">All</option>
-                            <option value="1">option 01</option>
-                            <option value="2">option 02</option>
-                            <option value="3">option 03</option>
-                            <option value="4">option 04</option>
-                            <option value="5">option 05</option>
                         </select>
                     </div>
                     <div class="search-input">
@@ -248,7 +246,8 @@
                                 <li><a href="contact-page.html">Contact</a></li>
                                 <li>
                                     <a href="javascript:void(0)">
-                                        <i class="mdi mdi-phone-in-talk"></i> +8801234567890
+                                        <i class="mdi mdi-phone-in-talk"></i>
+                                        +8801234567890
                                     </a>
                                 </li>
                             </ul>
@@ -413,7 +412,8 @@
                                                         <td class="checkout-product">
                                                             <div class="product-cart d-flex">
                                                                 <div class="product-thumb">
-                                                                    <img src="assets/images/product-cart/product-1.png" alt="Product">
+                                                                    <img src="assets/images/product-cart/product-1.png"
+                                                                        alt="Product">
                                                                 </div>
                                                                 <div class="product-content media-body">
                                                                     <h5 class="title">
@@ -450,7 +450,8 @@
                                                         <td class="checkout-product">
                                                             <div class="product-cart d-flex">
                                                                 <div class="product-thumb">
-                                                                    <img src="assets/images/product-cart/product-2.png" alt="Product">
+                                                                    <img src="assets/images/product-cart/product-2.png"
+                                                                        alt="Product">
                                                                 </div>
                                                                 <div class="product-content media-body">
                                                                     <h5 class="title">
@@ -487,7 +488,8 @@
                                                         <td class="checkout-product">
                                                             <div class="product-cart d-flex">
                                                                 <div class="product-thumb">
-                                                                    <img src="assets/images/product-cart/product-3.png" alt="Product">
+                                                                    <img src="assets/images/product-cart/product-3.png"
+                                                                        alt="Product">
                                                                 </div>
                                                                 <div class="product-content media-body">
                                                                     <h5 class="title">
@@ -524,7 +526,8 @@
                                                         <td class="checkout-product">
                                                             <div class="product-cart d-flex">
                                                                 <div class="product-thumb">
-                                                                    <img src="assets/images/product-cart/product-4.png" alt="Product">
+                                                                    <img src="assets/images/product-cart/product-4.png"
+                                                                        alt="Product">
                                                                 </div>
                                                                 <div class="product-content media-body">
                                                                     <h5 class="title">

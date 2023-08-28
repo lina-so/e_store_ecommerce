@@ -11,6 +11,7 @@ use Database\Seeders\AdminsTableSeeder;
 use Database\Seeders\BrandSeeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\OptionSeeder;
+use Database\Seeders\ProdcutAttributeSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\SectionSeeder;
 use Database\Seeders\ValueSeeder;
@@ -36,6 +37,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductSeeder::class);
         $this->call(OptionSeeder::class);
         $this->call(ValueSeeder::class);
-
+        $this->call(ProdcutAttributeSeeder::class);
     }
 }
